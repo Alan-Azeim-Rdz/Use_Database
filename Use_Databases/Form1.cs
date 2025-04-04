@@ -13,7 +13,7 @@ namespace Use_Databases
 
         private void BtnOpenData_Click(object sender, EventArgs e)
         {
-            string stringConnection = @"Server=ALAN_LUX_ASUS\SQLEXPRESS08;Database=ESCUELA;Trusted_Connection=True;TrustServerCertificate=true;";
+            string stringConnection = @"Server=LUX_ALAN\SQLEXPRESS;Database=ESCUELA;Trusted_Connection=True;TrustServerCertificate=true;";
             using (SqlConnection connection = new SqlConnection(stringConnection))
             {
                 try
@@ -40,22 +40,42 @@ namespace Use_Databases
                     MessageBox.Show("Connection Closed");
                 }
             }
-        } 
-        private void BtnInsertData_Click(object sender, EventArgs e)
+        }
+
+        private void BtnSendData_Click(object sender, EventArgs e)
         {
-            string stringConnection = @"Server=ALAN_LUX_ASUS\SQLEXPRESS08;Database=ESCUELA;Trusted_Connection=True;TrustServerCertificate=true;";
+            string stringConnection = @"Server=LUX_ALAN\SQLEXPRESS;Database=ESCUELA;Trusted_Connection=True;TrustServerCertificate=true;";
+
             using (SqlConnection connection = new SqlConnection(stringConnection))
             {
                 try
                 {
                     connection.Open();
-                    MessageBox.Show("Connection Opened");
-                    // Insertar datos en la tabla de la base de datos
-                    SqlCommand command = new SqlCommand("INSERT INTO CARRERA (ID_CARRERA, NOMBRE_CARRERA) VALUES (@ID_CARRERA, @NOMBRE_CARRERA)", connection);
-                    command.Parameters.AddWithValue("@ID_CARRERA", 1);
-                    command.Parameters.AddWithValue("@NOMBRE_CARRERA", "Ingeniería en Sistemas Computacionales");
-                    command.ExecuteNonQuery();
-                    MessageBox.Show("Data Inserted");
+
+                    foreach (DataGridViewRow row in DataGridCarrera.Rows)
+                    {
+                        if (!row.IsNewRow) // Evita procesar la última fila vacía
+                        {
+                            int id = Convert.ToInt32(row.Cells[0].Value);
+                            string nombre = row.Cells[1].Value?.ToString() ?? "";
+
+                            string query = "UPDATE CARRERA SET NOMBRE = @NOMBRE WHERE ID = @ID";
+                            SqlCommand command = new SqlCommand(query, connection);
+                            command.Parameters.AddWithValue("@ID", id);
+                            command.Parameters.AddWithValue("@NOMBRE", nombre);
+
+                            command.ExecuteNonQuery();
+                        }
+                    }
+
+                    MessageBox.Show("Datos actualizados correctamente");
+
+                    // Recargar el DataGridView para reflejar los cambios
+                    SqlCommand selectCommand = new SqlCommand("SELECT * FROM CARRERA", connection);
+                    SqlDataAdapter adapter = new SqlDataAdapter(selectCommand);
+                    DataTable dataTable = new DataTable();
+                    adapter.Fill(dataTable);
+                    DataGridCarrera.DataSource = dataTable;
                 }
                 catch (SqlException ex)
                 {
@@ -64,7 +84,7 @@ namespace Use_Databases
             }
         }
 
-        private void BtnClose_Click(object sender, EventArgs e)
+        private void BtnClose_Click_1(object sender, EventArgs e)
         {
             Form1.ActiveForm.Close(); // Cierra el formulario activo
         }
