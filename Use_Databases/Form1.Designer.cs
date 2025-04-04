@@ -128,6 +128,7 @@
             BtnAddAlumno.TabIndex = 13;
             BtnAddAlumno.Text = "Add";
             BtnAddAlumno.UseVisualStyleBackColor = true;
+            BtnAddAlumno.Click += BtnAddAlumno_Click;
             // 
             // Form1
             // 

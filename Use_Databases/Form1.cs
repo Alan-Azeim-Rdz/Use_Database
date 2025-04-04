@@ -10,10 +10,11 @@ namespace Use_Databases
         {
             InitializeComponent();
         }
+        string stringConnection = @"Server=ALAN_LUX_ASUS\SQLEXPRESS08;Database=ESCUELA;Trusted_Connection=True;TrustServerCertificate=true;";
 
         private void BtnOpenData_Click(object sender, EventArgs e)
         {
-            string stringConnection = @"Server=LUX_ALAN\SQLEXPRESS;Database=ESCUELA;Trusted_Connection=True;TrustServerCertificate=true;";
+           
             using (SqlConnection connection = new SqlConnection(stringConnection))
             {
                 try
@@ -44,7 +45,6 @@ namespace Use_Databases
 
         private void BtnSendData_Click(object sender, EventArgs e)
         {
-            string stringConnection = @"Server=LUX_ALAN\SQLEXPRESS;Database=ESCUELA;Trusted_Connection=True;TrustServerCertificate=true;";
 
             using (SqlConnection connection = new SqlConnection(stringConnection))
             {
@@ -87,6 +87,11 @@ namespace Use_Databases
         private void BtnClose_Click_1(object sender, EventArgs e)
         {
             Form1.ActiveForm.Close(); // Cierra el formulario activo
+        }
+
+        private void BtnAddAlumno_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
