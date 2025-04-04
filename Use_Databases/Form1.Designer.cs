@@ -52,7 +52,7 @@
             // 
             // BtnOpenDataCarrera
             // 
-            BtnOpenDataCarrera.Location = new Point(12, 12);
+            BtnOpenDataCarrera.Location = new Point(48, 23);
             BtnOpenDataCarrera.Name = "BtnOpenDataCarrera";
             BtnOpenDataCarrera.Size = new Size(139, 40);
             BtnOpenDataCarrera.TabIndex = 2;
